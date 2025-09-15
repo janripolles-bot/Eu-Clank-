@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secret Language Translator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto+Mono&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #000000;
+      color: #00ffcc;
+      font-family: 'Orbitron', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      margin: 0;
+    }
+
+    h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #00ffcc;
+    }
+
+    textarea {
+      background-color: #111;
+      color: #00ffcc;
+      border: 2px solid #00ffcc;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 1em;
+      width: 90%;
+      max-width: 600px;
+      font-family: 'Roboto Mono', monospace;
+      resize: vertical;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px #00ffcc50;
+    }
+
+    button {
+      background-color: #00ffcc;
+      color: #000;
+      border: none;
+      border-radius: 25px;
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc80;
+    }
+
+    button:hover {
+      background-color: #000;
+      color: #00ffcc;
+      box-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffccaa;
+      border: 2px solid #00ffcc;
+    }
+
+    @media (max-width: 600px) {
+      textarea {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>English ⇄ Secret Language</h2>
+  
+  <textarea id="inputText" rows="4" placeholder="Type here..."></textarea><br>
+  
+  <div>
+    <button onclick="toSecret()">English → Secret</button>
+    <button onclick="toEnglish()">Secret → English</button>
+  </div>
+  
+  <textarea id="outputText" rows="4" placeholder="Translation will appear here..."></textarea>
+
+  <script>
+    const engToSecret = {
+      "A":"A","B":"-","C":"+","D":"x","E":">","F":"<","G":"=","H":"€","I":"I",
+      "J":"J","K":"/","L":"“","M":"*","N":"\\","O":"‘","P":"#","Q":",","R":"$",
+      "S":"@","T":"¥","U":"(","V":")","W":"))","X":"D","Y":"Z","Z":"Y"
+    };
+
+    const secretToEng = {};
+    for (let key in engToSecret) {
+      secretToEng[engToSecret[key]] = key;
+    }
+
+    function toSecret() {
+      let text = document.getElementById("inputText").value.toUpperCase();
+      let result = "";
+      for (let char of text) {
+        result += engToSecret[char] || char;
+      }
+      document.getElementById("outputText").value = result;
+    }
+
+    function toEnglish() {
+      let text = document.getElementById("inputText").value;
+      let result = "";
+      for (let i = 0; i < text.length; i++) {
+        if (text[i] === ")" && text[i+1] === ")") {
+          result += "W";
+          i++;
+        } else {
+          result += secretToEng[text[i]] || text[i];
+        }
+      }
+      document.getElementById("outputText").value = result;
+    }
+  </script>
+</body>
+</html>
